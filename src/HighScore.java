@@ -1,11 +1,11 @@
 import javax.swing.*;
 import java.awt.*;
 
-public class App1 {
+public class HighScore {
 
-        private JFrame jFrame;
+    private JFrame jFrame;
 
-    public App1() {
+    public HighScore() {
         jFrame = new JFrame();
         init();
     }
@@ -18,9 +18,5 @@ public class App1 {
         jFrame.setLayout(new BorderLayout());
         jFrame.setTitle("Game");
         jFrame.getContentPane().setBackground(Color.gray);
-
     }
-
-
-
 }

@@ -26,8 +26,15 @@ public class TitleScreen extends JFrame {
         b1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new App1();
-                dispose();
+                new Game();
+
+            }
+        });
+
+        b2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new HighScore();
 
             }
         });
