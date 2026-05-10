@@ -1,22 +1,23 @@
 import javax.swing.*;
 import java.awt.*;
 
-public class HighScore {
-
-    private JFrame jFrame;
+public class HighScore extends JFrame {
 
     public HighScore() {
-        jFrame = new JFrame();
-        init();
-    }
+        super("High Score");
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // zavře jen toto okno
+        setSize(400, 300);
+        setLocationRelativeTo(null);
+        setLayout(new BorderLayout());
 
-    private void init(){
-        jFrame.setLocationRelativeTo(null);
-        jFrame.setResizable(true);
-        jFrame.setVisible(true);
-        jFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        jFrame.setLayout(new BorderLayout());
-        jFrame.setTitle("Game");
-        jFrame.getContentPane().setBackground(Color.gray);
+        JLabel title = new JLabel("Best score:", SwingConstants.CENTER);
+        title.setFont(new Font("Serif", Font.BOLD, 36));
+        add(title, BorderLayout.NORTH);
+
+        JLabel score = new JLabel("0", SwingConstants.CENTER); // zatím placeholder
+        score.setFont(new Font("Serif", Font.PLAIN, 60));
+        add(score, BorderLayout.CENTER);
+
+        setVisible(true);
     }
 }

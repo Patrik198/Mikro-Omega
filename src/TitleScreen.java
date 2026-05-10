@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 
 public class TitleScreen extends JFrame {
 
-    public TitleScreen(){
+    public TitleScreen() {
         super("Menu");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         getContentPane().setBackground(Color.PINK);
@@ -13,22 +13,29 @@ public class TitleScreen extends JFrame {
         setExtendedState(MAXIMIZED_BOTH);
         setLayout(new BorderLayout());
         setIconImage(new ImageIcon("160px-Diamond_(inventory)_MCE.png").getImage());
+
         JButton b1 = new JButton("Start");
-        add(b1, BorderLayout.PAGE_START);
         b1.setFont(new Font("Serif", Font.BOLD, 45));
-        b1.setBounds(75, 150, 75, 150);
         b1.setFocusPainted(false);
+        add(b1, BorderLayout.NORTH);
+
         JButton b2 = new JButton("HighScore");
-        add(b2, BorderLayout.PAGE_END);
         b2.setFont(new Font("Serif", Font.BOLD, 45));
-        b2.setBounds(75, 150, 75, 150);
         b2.setFocusPainted(false);
+        add(b2, BorderLayout.SOUTH);
 
         b1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new Game();
+                JFrame frame = new JFrame("Game");
+                frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                frame.setUndecorated(false);
 
+                Game game = new Game(frame);
+
+                frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+                frame.setVisible(true);
+                game.startGameThread();
             }
         });
 
@@ -36,7 +43,6 @@ public class TitleScreen extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new HighScore();
-
             }
         });
     }

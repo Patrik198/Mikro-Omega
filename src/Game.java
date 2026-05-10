@@ -1,68 +1,68 @@
 import javax.swing.*;
 import java.awt.*;
 
-public class Game implements Runnable{
+public class Game extends JPanel implements Runnable {
 
-        private JFrame jFrame;
-        private Thread gameThread;
-        KeyHandler kh = new KeyHandler();
+    final int originalTileSize = 16;
+    final int scale = 3;
+    final int tileSize = originalTileSize * scale;
 
-    public Game() {
-        jFrame = new JFrame();
-        jFrame.addKeyListener(kh);
-        jFrame.setFocusable(true);
-        init();
+    final int screenWidth = 1920;
+    final int screenHeight = 1080;
+
+    private Thread gameThread;
+    KeyHandler kh = new KeyHandler();
+    Image img;
+    Image background;
+
+    int cartX = 100;
+    int cartY = 522;
+    int cartSpeed = 4;
+
+    public Game(JFrame frame) {
+        img = new ImageIcon("pixil-frame-0.png").getImage();
+        background = new ImageIcon("background upravene.png").getImage();
+        this.setPreferredSize(new Dimension(screenWidth, screenHeight));
+        frame.add(this);
+        frame.addKeyListener(kh);
+        this.setFocusable(true);
+
     }
 
-    int cartx = 100;
-    int carty = 100;
-    int cartspeed = 4;
-
-
-    private void init(){
-        jFrame.setLocationRelativeTo(null);
-        jFrame.setResizable(true);
-        jFrame.setVisible(true);
-        jFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        jFrame.setLayout(new BorderLayout());
-        jFrame.setTitle("Game");
-        jFrame.getContentPane().setBackground(Color.gray);
-
-    }
-
-    public void startGameThread(){
-
+    public void startGameThread() {
         gameThread = new Thread(this);
         gameThread.start();
     }
 
-    public void run(){
-
-        while (gameThread != null){
-
+    @Override
+    public void run() {
+        while (gameThread != null) {
             update();
+            repaint();  // ← zavolá paintComponent automaticky
 
-//            repaint();
+            try {
+                Thread.sleep(16); // ~60 FPS
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    public void update(){
-
-        if (kh.LeftPressed == true){
-            cartx -= cartspeed;
+    public void update() {
+        if (kh.LeftPressed) {
+            cartX -= cartSpeed;
         } else if (kh.RightPressed) {
-            cartx += cartspeed;
+            cartX += cartSpeed;
         }
     }
 
-    public void paintobject(Graphics g){
-        paintobject(g);
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
-        g2.setColor(Color.cyan);
-        g2.fillRect(cartx,carty,100,100);
-        g2.dispose();
+
+        // getWidth()/getHeight() funguje správně až po setVisible
+        g2.drawImage(background, 0, 0, getWidth(), getHeight(), null);
+        g2.drawImage(img, cartX, cartY, tileSize * 10, tileSize * 10, null);
     }
-
-
-
 }
