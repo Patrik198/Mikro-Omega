@@ -1,3 +1,5 @@
+package Game;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -15,18 +17,28 @@ public class Game extends JPanel implements Runnable {
     Image img;
     Image background;
 
-    int cartX = 100;
-    int cartY = 522;
-    int cartSpeed = 4;
+    int cartX = 610;
+    int cartY = 505;
+    int cartSpeed = 12;
 
     public Game(JFrame frame) {
-        img = new ImageIcon("pixil-frame-0.png").getImage();
-        background = new ImageIcon("background upravene.png").getImage();
+
+        img = new ImageIcon("D:\\hrbek2\\Mikro-Omega_git1\\src\\Images\\pixil-frame-0.png").getImage();
+        background = new ImageIcon("D:\\hrbek2\\Mikro-Omega_git1\\src\\Images\\background upravene.png").getImage();
+
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
-        frame.add(this);
-        frame.addKeyListener(kh);
+
         this.setFocusable(true);
 
+        this.addKeyListener(kh);
+
+        frame.add(this);
+
+        frame.pack();
+
+        this.requestFocus();
+
+        frame.setIconImage(new ImageIcon("D:\\hrbek2\\Mikro-Omega_git1\\src\\Images\\160px-Diamond_(inventory)_MCE.png").getImage());
     }
 
     public void startGameThread() {
@@ -51,9 +63,22 @@ public class Game extends JPanel implements Runnable {
     public void update() {
         if (kh.LeftPressed) {
             cartX -= cartSpeed;
-        } else if (kh.RightPressed) {
+        }
+
+        if (kh.RightPressed) {
             cartX += cartSpeed;
         }
+
+        // hranice obrazovky
+        if (cartX < -60) {
+            cartX = -60;
+        }
+
+        if (cartX > screenWidth - tileSize * 12) {
+            cartX = screenWidth - tileSize * 12;
+        }
+
+
     }
 
     @Override

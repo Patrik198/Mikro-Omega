@@ -1,3 +1,5 @@
+package Game;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -9,6 +11,8 @@ public class HighScore extends JFrame {
         setSize(400, 300);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
+
+        setIconImage(new ImageIcon("D:\\hrbek2\\Mikro-Omega_git1\\src\\Images\\160px-Diamond_(inventory)_MCE.png").getImage());
 
         JLabel title = new JLabel("Best score:", SwingConstants.CENTER);
         title.setFont(new Font("Serif", Font.BOLD, 36));
