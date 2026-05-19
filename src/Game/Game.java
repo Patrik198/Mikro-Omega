@@ -33,7 +33,7 @@ public class Game extends JPanel implements Runnable {
         this.addKeyListener(kh);
 
         frame.add(this);
-
+        frame.setResizable(false);
         frame.pack();
 
         this.requestFocus();
