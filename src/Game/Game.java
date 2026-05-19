@@ -18,7 +18,7 @@ public class Game extends JPanel implements Runnable {
     final int screenHeight;
 
     int cartX = 610;
-    int cartY = 505;
+    int cartY = 463;
     int cartSpeed = 12;
 
     public Game(JFrame frame) {
@@ -75,12 +75,12 @@ public class Game extends JPanel implements Runnable {
         }
 
         // hranice obrazovky
-        if (cartX < -60) {
-            cartX = -60;
+        if (cartX < -65) {
+            cartX = -65;
         }
 
-        if (cartX > screenWidth - tileSize * 12) {
-            cartX = screenWidth - tileSize * 12;
+        if (cartX > screenWidth - tileSize * 12 + 240) {
+            cartX = screenWidth - tileSize * 12 + 240;
         }
 
     }

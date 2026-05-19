@@ -14,7 +14,7 @@ public class TitleScreen extends JFrame {
         setLocationRelativeTo(null);
         setExtendedState(MAXIMIZED_BOTH);
         setLayout(new BorderLayout());
-        setIconImage(new ImageIcon("D:\\hrbek2\\Mikro-Omega_git1\\src\\Images\\160px-Diamond_(inventory)_MCE.png").getImage());
+        setIconImage(new ImageIcon(getClass().getResource("/Images/160px-Diamond_(inventory)_MCE.png")).getImage());
 
         JButton b1 = new JButton("Start");
         b1.setFont(new Font("Serif", Font.BOLD, 45));
