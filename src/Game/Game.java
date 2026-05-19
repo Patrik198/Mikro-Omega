@@ -9,13 +9,13 @@ public class Game extends JPanel implements Runnable {
     final int scale = 3;
     final int tileSize = originalTileSize * scale;
 
-    final int screenWidth = 1920;
-    final int screenHeight = 1080;
-
     private Thread gameThread;
     KeyHandler kh = new KeyHandler();
     Image img;
     Image background;
+
+    final int screenWidth;
+    final int screenHeight;
 
     int cartX = 610;
     int cartY = 505;
@@ -25,6 +25,10 @@ public class Game extends JPanel implements Runnable {
 
         img = new ImageIcon(getClass().getResource("/Images/pixil-frame-0.png")).getImage();
         background = new ImageIcon(getClass().getResource("/Images/background upravene.png")).getImage();
+
+        Dimension screensize = Toolkit.getDefaultToolkit().getScreenSize();
+        screenWidth = (int) screensize.getWidth();
+        screenHeight = (int) screensize.getHeight();
 
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
 
@@ -61,6 +65,7 @@ public class Game extends JPanel implements Runnable {
     }
 
     public void update() {
+
         if (kh.LeftPressed) {
             cartX -= cartSpeed;
         }
@@ -77,7 +82,6 @@ public class Game extends JPanel implements Runnable {
         if (cartX > screenWidth - tileSize * 12) {
             cartX = screenWidth - tileSize * 12;
         }
-
 
     }
 

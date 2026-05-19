@@ -10,7 +10,7 @@ public class TitleScreen extends JFrame {
     public TitleScreen() {
         super("Menu");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        getContentPane().setBackground(Color.PINK);
+        getContentPane().setBackground(Color.CYAN);
         setLocationRelativeTo(null);
         setExtendedState(MAXIMIZED_BOTH);
         setLayout(new BorderLayout());
