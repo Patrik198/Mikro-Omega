@@ -2,33 +2,41 @@ package Game;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Random;
 
 public class Game extends JPanel implements Runnable {
 
-    final int originalTileSize = 16;
-    final int scale = 3;
-    final int tileSize = originalTileSize * scale;
+    private final int originalTileSize = 16;
+    private final int scale = 3;
+    private final int tileSize = originalTileSize * scale;
 
     private Thread gameThread;
     KeyHandler kh = new KeyHandler();
     Image img;
+    Image img2;
     Image background;
 
-    final int screenWidth;
-    final int screenHeight;
+    private final int screenWidth;
+    private final int screenHeight;
+    private Random rnd;
 
-    int cartX = 610;
-    int cartY = 463;
-    int cartSpeed = 12;
+    private int cartX = 610;
+    private int cartY = 463;
+    private int cartSpeed = 12;
+    private int img2X;
+
 
     public Game(JFrame frame) {
 
         img = new ImageIcon(getClass().getResource("/Images/pixil-frame-0.png")).getImage();
+        img2 = new ImageIcon(getClass().getResource("/Images/pixil-frame-0 (6).png")).getImage();
         background = new ImageIcon(getClass().getResource("/Images/background upravene.png")).getImage();
 
         Dimension screensize = Toolkit.getDefaultToolkit().getScreenSize();
         screenWidth = (int) screensize.getWidth();
         screenHeight = (int) screensize.getHeight();
+        rnd = new Random();
+        img2X = rnd.nextInt(screenWidth);
 
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
 
@@ -93,5 +101,6 @@ public class Game extends JPanel implements Runnable {
         // getWidth()/getHeight() funguje správně až po setVisible
         g2.drawImage(background, 0, 0, getWidth(), getHeight(), null);
         g2.drawImage(img, cartX, cartY, tileSize * 10, tileSize * 10, null);
+        g2.drawImage(img2, img2X, cartY-400, 350, 350, null);
     }
 }
