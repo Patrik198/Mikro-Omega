@@ -23,8 +23,8 @@ public class Game extends JPanel implements Runnable {
 
     public Game(JFrame frame) {
 
-        img = new ImageIcon("D:\\hrbek2\\Mikro-Omega_git1\\src\\Images\\pixil-frame-0.png").getImage();
-        background = new ImageIcon("D:\\hrbek2\\Mikro-Omega_git1\\src\\Images\\background upravene.png").getImage();
+        img = new ImageIcon(getClass().getResource("/Images/pixil-frame-0.png")).getImage();
+        background = new ImageIcon(getClass().getResource("/Images/background upravene.png")).getImage();
 
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
 
@@ -38,7 +38,7 @@ public class Game extends JPanel implements Runnable {
 
         this.requestFocus();
 
-        frame.setIconImage(new ImageIcon("D:\\hrbek2\\Mikro-Omega_git1\\src\\Images\\160px-Diamond_(inventory)_MCE.png").getImage());
+        frame.setIconImage(new ImageIcon(getClass().getResource("/Images/160px-Diamond_(inventory)_MCE.png")).getImage());
     }
 
     public void startGameThread() {
