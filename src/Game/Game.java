@@ -12,7 +12,7 @@ public class Game extends JPanel implements Runnable {
 
     private Thread gameThread;
     KeyHandler kh = new KeyHandler();
-    Image img;
+    Entity cart = new Entity();
     Image img2;
     Image background;
 
@@ -28,7 +28,8 @@ public class Game extends JPanel implements Runnable {
 
     public Game(JFrame frame) {
 
-        img = new ImageIcon(getClass().getResource("/Images/pixil-frame-0.png")).getImage();
+        cart.cartFrames[0] = new ImageIcon(getClass().getResource("/Images/pixil-frame-0.png")).getImage();
+        cart.cartFrames[1] = new ImageIcon(getClass().getResource("/Images/defaultcart.png")).getImage();
         img2 = new ImageIcon(getClass().getResource("/Images/pixil-frame-0 (6).png")).getImage();
         background = new ImageIcon(getClass().getResource("/Images/background upravene.png")).getImage();
 
@@ -91,6 +92,9 @@ public class Game extends JPanel implements Runnable {
             cartX = screenWidth - tileSize * 12 + 240;
         }
 
+        boolean isMoving = kh.LeftPressed || kh.RightPressed;
+        cart.updateAnimation(isMoving);
+
     }
 
     @Override
@@ -100,7 +104,7 @@ public class Game extends JPanel implements Runnable {
 
         // getWidth()/getHeight() funguje správně až po setVisible
         g2.drawImage(background, 0, 0, getWidth(), getHeight(), null);
-        g2.drawImage(img, cartX, cartY, tileSize * 10, tileSize * 10, null);
+        g2.drawImage(cart.cartFrames[cart.currentFrame], cartX, cartY, tileSize * 10, tileSize * 10, null);
         g2.drawImage(img2, img2X, cartY-400, 350, 350, null);
     }
 }
