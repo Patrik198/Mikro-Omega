@@ -15,6 +15,7 @@ public class Game extends JPanel implements Runnable {
     Entity cart = new Entity();
     Image img2;
     Image background;
+    HighScore hc;
 
     private final int screenWidth;
     private final int screenHeight;
@@ -23,7 +24,9 @@ public class Game extends JPanel implements Runnable {
     private int cartX = 610;
     private int cartY = 463;
     private int cartSpeed = 12;
+    private int diamondspeed = 5;
     private int img2X;
+    private int img2Y;
 
 
     public Game(JFrame frame) {
@@ -38,6 +41,8 @@ public class Game extends JPanel implements Runnable {
         screenHeight = (int) screensize.getHeight();
         rnd = new Random();
         img2X = rnd.nextInt(screenWidth);
+        img2Y = -350;
+        hc = new HighScore();
 
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
 
@@ -95,6 +100,24 @@ public class Game extends JPanel implements Runnable {
         boolean isMoving = kh.LeftPressed || kh.RightPressed;
         cart.updateAnimation(isMoving);
 
+        img2Y += diamondspeed;
+
+        if (img2Y > screenHeight) {
+            img2Y = -350;
+            img2X = rnd.nextInt(screenWidth - 350);
+        }
+
+        // hitboxy
+        Rectangle cartRect = new Rectangle(cartX + 50, cartY + 170, tileSize * 8 - 100, tileSize * 4 - 60);
+        Rectangle diamondRect = new Rectangle(img2X+20, img2Y+84, 90, 50);
+
+        if (cartRect.intersects(diamondRect)) {
+            // kolize! respawnuj diamant
+            img2Y = -350;
+            img2X = rnd.nextInt(screenWidth - 350);
+            hc.counter();
+        }
+
     }
 
     @Override
@@ -105,6 +128,17 @@ public class Game extends JPanel implements Runnable {
         // getWidth()/getHeight() funguje správně až po setVisible
         g2.drawImage(background, 0, 0, getWidth(), getHeight(), null);
         g2.drawImage(cart.cartFrames[cart.currentFrame], cartX, cartY, tileSize * 10, tileSize * 10, null);
-        g2.drawImage(img2, img2X, cartY-400, 350, 350, null);
+        g2.drawImage(img2, img2X, img2Y, 350, 350, null);
+
+        // Hitboxy na testy a pro ukazku
+//        g2.setColor(new Color(255, 0, 0, 120));
+//        g2.fillRect(cartX + 50, cartY + 170, tileSize * 8 - 100, tileSize * 4-60);
+//        g2.setColor(Color.RED);
+//        g2.drawRect(cartX + 50, cartY + 170, tileSize * 8 - 100, tileSize * 4-60);
+//
+//        g2.setColor(new Color(0, 0, 255, 120));
+//        g2.fillRect(img2X+20, img2Y+84, 90, 50);
+//        g2.setColor(Color.BLUE);
+//        g2.drawRect(img2X+20, img2Y+84, 90, 50);w
     }
 }

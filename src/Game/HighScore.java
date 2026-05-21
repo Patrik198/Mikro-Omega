@@ -5,6 +5,10 @@ import java.awt.*;
 
 public class HighScore extends JFrame {
 
+    private int currentscore;
+    private int highscorecounter;
+    private JLabel score;
+
     public HighScore() {
         super("High Score");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // zavře jen toto okno
@@ -12,16 +16,25 @@ public class HighScore extends JFrame {
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
 
-        setIconImage(new ImageIcon("D:\\hrbek2\\Mikro-Omega_git1\\src\\Images\\160px-Diamond_(inventory)_MCE.png").getImage());
+        setIconImage(new ImageIcon("/Images/160px-Diamond_(inventory)_MCE.png").getImage());
 
         JLabel title = new JLabel("Best score:", SwingConstants.CENTER);
         title.setFont(new Font("Serif", Font.BOLD, 36));
         add(title, BorderLayout.NORTH);
 
-        JLabel score = new JLabel("0", SwingConstants.CENTER); // zatím placeholder
+        score = new JLabel(String.valueOf(highscorecounter), SwingConstants.CENTER);
         score.setFont(new Font("Serif", Font.PLAIN, 60));
         add(score, BorderLayout.CENTER);
 
         setVisible(true);
+    }
+
+    public void counter() {
+        currentscore++;
+
+        if (currentscore > highscorecounter) {
+            highscorecounter = currentscore;
+            score.setText(String.valueOf(highscorecounter));
+        }
     }
 }
