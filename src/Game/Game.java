@@ -13,6 +13,7 @@ public class Game extends JPanel implements Runnable {
     private Thread gameThread;
     KeyHandler kh = new KeyHandler();
     Entity cart = new Entity();
+    Image img;
     Image img2;
     Image background;
     HighScore hc;
@@ -20,6 +21,7 @@ public class Game extends JPanel implements Runnable {
     private final int screenWidth;
     private final int screenHeight;
     private Random rnd;
+    private int currentItem;
 
     private int cartX = 610;
     private int cartY = 463;
@@ -31,9 +33,10 @@ public class Game extends JPanel implements Runnable {
 
     public Game(JFrame frame) {
 
-        cart.cartFrames[0] = new ImageIcon(getClass().getResource("/Images/pixil-frame-0.png")).getImage();
+        cart.cartFrames[0] = new ImageIcon(getClass().getResource("/Images/minecart1.png")).getImage();
         cart.cartFrames[1] = new ImageIcon(getClass().getResource("/Images/defaultcart.png")).getImage();
-        img2 = new ImageIcon(getClass().getResource("/Images/pixil-frame-0 (6).png")).getImage();
+        img2 = new ImageIcon(getClass().getResource("/Images/diamond.png")).getImage();
+        img = new ImageIcon(getClass().getResource("/Images/ironingot.png")).getImage();
         background = new ImageIcon(getClass().getResource("/Images/background upravene.png")).getImage();
 
         Dimension screensize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -43,6 +46,7 @@ public class Game extends JPanel implements Runnable {
         img2X = rnd.nextInt(screenWidth);
         img2Y = -350;
         hc = new HighScore();
+        currentItem = rnd.nextInt(2);
 
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
 
@@ -105,16 +109,25 @@ public class Game extends JPanel implements Runnable {
         if (img2Y > screenHeight) {
             img2Y = -350;
             img2X = rnd.nextInt(screenWidth - 350);
+            currentItem = rnd.nextInt(2);
         }
 
+        Rectangle itemRect;
         // hitboxy
         Rectangle cartRect = new Rectangle(cartX + 50, cartY + 170, tileSize * 8 - 100, tileSize * 4 - 60);
-        Rectangle diamondRect = new Rectangle(img2X+20, img2Y+84, 90, 50);
 
-        if (cartRect.intersects(diamondRect)) {
+        if (currentItem == 0){
+            itemRect = new Rectangle(img2X+20, img2Y+84, 90, 50);
+        }else{
+            itemRect = new Rectangle(img2X+50, img2Y + 142, 130, 50);
+        }
+
+
+        if (cartRect.intersects(itemRect)) {
             // kolize! respawnuj diamant
             img2Y = -350;
             img2X = rnd.nextInt(screenWidth - 350);
+            currentItem = rnd.nextInt(2);
             hc.counter();
         }
 
@@ -128,17 +141,22 @@ public class Game extends JPanel implements Runnable {
         // getWidth()/getHeight() funguje správně až po setVisible
         g2.drawImage(background, 0, 0, getWidth(), getHeight(), null);
         g2.drawImage(cart.cartFrames[cart.currentFrame], cartX, cartY, tileSize * 10, tileSize * 10, null);
-        g2.drawImage(img2, img2X, img2Y, 350, 350, null);
 
-        // Hitboxy na testy a pro ukazku
-//        g2.setColor(new Color(255, 0, 0, 120));
-//        g2.fillRect(cartX + 50, cartY + 170, tileSize * 8 - 100, tileSize * 4-60);
-//        g2.setColor(Color.RED);
-//        g2.drawRect(cartX + 50, cartY + 170, tileSize * 8 - 100, tileSize * 4-60);
-//
-//        g2.setColor(new Color(0, 0, 255, 120));
-//        g2.fillRect(img2X+20, img2Y+84, 90, 50);
-//        g2.setColor(Color.BLUE);
-//        g2.drawRect(img2X+20, img2Y+84, 90, 50);w
+        if(currentItem == 0){
+            g2.drawImage(img2, img2X, img2Y, 350, 350, null);
+        }else{
+            g.drawImage(img, img2X, img2Y, 300, 300, null);
+        }
+
+//         Hitboxy na testy a pro ukazku
+        g2.setColor(new Color(255, 0, 0, 120));
+        g2.fillRect(cartX + 50, cartY + 170, tileSize * 8 - 100, tileSize * 4-60);
+        g2.setColor(Color.RED);
+        g2.drawRect(cartX + 50, cartY + 170, tileSize * 8 - 100, tileSize * 4-60);
+
+        g2.setColor(new Color(0, 0, 255, 120));
+        g2.fillRect(img2X+20, img2Y+84, 90, 50);
+        g2.setColor(Color.BLUE);
+        g2.drawRect(img2X+50, img2Y+142, 130, 50);
     }
 }
