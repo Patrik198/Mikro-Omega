@@ -31,9 +31,15 @@ public class Game extends JPanel implements Runnable {
     private int diamondspeed = 5;
     private int img2X;
     private int img2Y;
+    private int zivoty;
+    private boolean bezi;
 
     private double itemRotation = 0;
     private final double[] rotationSpeeds = {0.03, 0.06, 0.04, 0.08};
+
+    public void setBezi(boolean bezi) {
+        this.bezi = bezi;
+    }
 
     public Game(JFrame frame) {
 
@@ -53,6 +59,8 @@ public class Game extends JPanel implements Runnable {
         img2Y = -350;
         hc = new HighScore();
         currentItem = rnd.nextInt(4);
+        zivoty = 3;
+        bezi = true;
 
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setFocusable(true);
@@ -129,10 +137,22 @@ public class Game extends JPanel implements Runnable {
         if (cartRect.intersects(itemRect)) {
             img2Y = -350;
             img2X = rnd.nextInt(screenWidth - 350);
-            currentItem = rnd.nextInt(4);
             itemRotation = 0;
-            hc.counter();
+
+            if (currentItem == 2) {
+                zivoty--;
+                if (zivoty <= 0) {
+                    setBezi(false);
+                    gameThread = null; // zastaví smyčku
+                }
+            } else {
+                hc.counter();
+            }
+
+            currentItem = rnd.nextInt(4);
         }
+
+
     }
 
     @Override
