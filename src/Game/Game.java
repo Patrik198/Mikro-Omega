@@ -18,7 +18,9 @@ public class Game extends JPanel implements Runnable {
     Image img3;
     Image img4;
     Image background;
-    HighScore hc;
+    Score hc;
+
+    private Frame frame;
 
     private final int screenWidth;
     private final int screenHeight;
@@ -35,7 +37,7 @@ public class Game extends JPanel implements Runnable {
     private boolean bezi;
 
     private double itemRotation = 0;
-    private final double[] rotationSpeeds = {0.03, 0.06, 0.04, 0.08};
+    private final double[] rotationSpeeds = {0.03, 0.03, 0.03, 0.03};
 
     public void setBezi(boolean bezi) {
         this.bezi = bezi;
@@ -57,10 +59,11 @@ public class Game extends JPanel implements Runnable {
         rnd = new Random();
         img2X = rnd.nextInt(screenWidth);
         img2Y = -350;
-        hc = new HighScore();
+        hc = new Score();
         currentItem = rnd.nextInt(4);
         zivoty = 3;
         bezi = true;
+        this.frame = frame;
 
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setFocusable(true);
@@ -144,6 +147,7 @@ public class Game extends JPanel implements Runnable {
                 if (zivoty <= 0) {
                     setBezi(false);
                     gameThread = null; // zastaví smyčku
+                    frame.dispose();
                 }
             } else {
                 hc.counter();

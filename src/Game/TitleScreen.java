@@ -38,13 +38,15 @@ public class TitleScreen extends JFrame {
                 frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
                 frame.setVisible(true);
                 game.startGameThread();
+
+
             }
         });
 
         b2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new HighScore();
+                new Score();
             }
         });
     }

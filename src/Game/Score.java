@@ -3,13 +3,13 @@ package Game;
 import javax.swing.*;
 import java.awt.*;
 
-public class HighScore extends JFrame {
+public class Score extends JFrame {
 
     private int currentscore;
     private int highscorecounter;
     private JLabel score;
 
-    public HighScore() {
+    public Score() {
         super("High Score");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // zavře jen toto okno
         setSize(400, 300);
