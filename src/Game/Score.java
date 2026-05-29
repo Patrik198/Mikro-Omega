@@ -6,7 +6,7 @@ import java.awt.*;
 public class Score extends JFrame {
 
     private int currentscore;
-    private int highscorecounter;
+    private int scorecounter;
     private JLabel score;
 
     public Score() {
@@ -22,7 +22,7 @@ public class Score extends JFrame {
         title.setFont(new Font("Serif", Font.BOLD, 36));
         add(title, BorderLayout.NORTH);
 
-        score = new JLabel(String.valueOf(highscorecounter), SwingConstants.CENTER);
+        score = new JLabel(String.valueOf(scorecounter), SwingConstants.CENTER);
         score.setFont(new Font("Serif", Font.PLAIN, 60));
         add(score, BorderLayout.CENTER);
 
@@ -32,9 +32,13 @@ public class Score extends JFrame {
     public void counter() {
         currentscore++;
 
-        if (currentscore > highscorecounter) {
-            highscorecounter = currentscore;
-            score.setText(String.valueOf(highscorecounter));
+        if (currentscore > scorecounter) {
+            scorecounter = currentscore;
+            score.setText(String.valueOf(scorecounter));
         }
+    }
+
+    public int getScorecounter() {
+        return scorecounter;
     }
 }

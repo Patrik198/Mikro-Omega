@@ -151,7 +151,11 @@ public class Game extends JPanel implements Runnable {
                 }
             } else {
                 hc.counter();
+                if (hc.getScorecounter() % 10 == 0){
+                    diamondspeed++;
+                }
             }
+
 
             currentItem = rnd.nextInt(4);
         }
