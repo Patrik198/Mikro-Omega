@@ -15,6 +15,8 @@ public class Game extends JPanel implements Runnable {
     Entity cart = new Entity();
     Image img;
     Image img2;
+    Image img3;
+    Image img4;
     Image background;
     HighScore hc;
 
@@ -30,6 +32,8 @@ public class Game extends JPanel implements Runnable {
     private int img2X;
     private int img2Y;
 
+    private double itemRotation = 0;
+    private final double[] rotationSpeeds = {0.03, 0.06, 0.04, 0.08};
 
     public Game(JFrame frame) {
 
@@ -37,6 +41,8 @@ public class Game extends JPanel implements Runnable {
         cart.cartFrames[1] = new ImageIcon(getClass().getResource("/Images/defaultcart.png")).getImage();
         img2 = new ImageIcon(getClass().getResource("/Images/diamond.png")).getImage();
         img = new ImageIcon(getClass().getResource("/Images/ironingot.png")).getImage();
+        img3 = new ImageIcon(getClass().getResource("/Images/pet lahev.png")).getImage();
+        img4 = new ImageIcon(getClass().getResource("/Images/zlato.png")).getImage();
         background = new ImageIcon(getClass().getResource("/Images/background upravene.png")).getImage();
 
         Dimension screensize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -46,12 +52,10 @@ public class Game extends JPanel implements Runnable {
         img2X = rnd.nextInt(screenWidth);
         img2Y = -350;
         hc = new HighScore();
-        currentItem = rnd.nextInt(2);
+        currentItem = rnd.nextInt(4);
 
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
-
         this.setFocusable(true);
-
         this.addKeyListener(kh);
 
         frame.add(this);
@@ -72,10 +76,10 @@ public class Game extends JPanel implements Runnable {
     public void run() {
         while (gameThread != null) {
             update();
-            repaint();  // ← zavolá paintComponent automaticky
+            repaint();
 
             try {
-                Thread.sleep(16); // ~60 FPS
+                Thread.sleep(16);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -92,7 +96,6 @@ public class Game extends JPanel implements Runnable {
             cartX += cartSpeed;
         }
 
-        // hranice obrazovky
         if (cartX < -65) {
             cartX = -65;
         }
@@ -105,32 +108,31 @@ public class Game extends JPanel implements Runnable {
         cart.updateAnimation(isMoving);
 
         img2Y += diamondspeed;
+        itemRotation += rotationSpeeds[currentItem];
 
         if (img2Y > screenHeight) {
             img2Y = -350;
             img2X = rnd.nextInt(screenWidth - 350);
-            currentItem = rnd.nextInt(2);
+            currentItem = rnd.nextInt(4);
+            itemRotation = 0;
         }
 
         Rectangle itemRect;
-        // hitboxy
         Rectangle cartRect = new Rectangle(cartX + 50, cartY + 170, tileSize * 8 - 100, tileSize * 4 - 60);
 
-        if (currentItem == 0){
-            itemRect = new Rectangle(img2X+20, img2Y+84, 90, 50);
-        }else{
-            itemRect = new Rectangle(img2X+50, img2Y + 142, 130, 50);
+        if (currentItem == 0) {
+            itemRect = new Rectangle(img2X + 20, img2Y + 292, 90, 50);
+        } else {
+            itemRect = new Rectangle(img2X + 50, img2Y + 142, 130, 50);
         }
-
 
         if (cartRect.intersects(itemRect)) {
-            // kolize! respawnuj diamant
             img2Y = -350;
             img2X = rnd.nextInt(screenWidth - 350);
-            currentItem = rnd.nextInt(2);
+            currentItem = rnd.nextInt(4);
+            itemRotation = 0;
             hc.counter();
         }
-
     }
 
     @Override
@@ -138,25 +140,41 @@ public class Game extends JPanel implements Runnable {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
 
-        // getWidth()/getHeight() funguje správně až po setVisible
         g2.drawImage(background, 0, 0, getWidth(), getHeight(), null);
         g2.drawImage(cart.cartFrames[cart.currentFrame], cartX, cartY, tileSize * 10, tileSize * 10, null);
 
-        if(currentItem == 0){
-            g2.drawImage(img2, img2X, img2Y, 350, 350, null);
-        }else{
-            g.drawImage(img, img2X, img2Y, 300, 300, null);
+        switch (currentItem) {
+            case 0:
+                drawRotatedImage(g2, img2, img2X, img2Y, 350, 350, itemRotation);
+                break;
+            case 1:
+                drawRotatedImage(g2, img, img2X, img2Y, 300, 300, itemRotation);
+                break;
+            case 2:
+                drawRotatedImage(g2, img3, img2X, img2Y, 200, 200, itemRotation);
+                break;
+            default:
+                drawRotatedImage(g2, img4, img2X, img2Y, 250, 250, itemRotation);
+                break;
         }
 
-//         Hitboxy na testy a pro ukazku
+//        Hitboxy na testy a pro ukazku
         g2.setColor(new Color(255, 0, 0, 120));
         g2.fillRect(cartX + 50, cartY + 170, tileSize * 8 - 100, tileSize * 4-60);
         g2.setColor(Color.RED);
         g2.drawRect(cartX + 50, cartY + 170, tileSize * 8 - 100, tileSize * 4-60);
 
         g2.setColor(new Color(0, 0, 255, 120));
-        g2.fillRect(img2X+20, img2Y+84, 90, 50);
+        g2.fillRect(img2X+20, img2Y+292, 90, 50);
         g2.setColor(Color.BLUE);
-        g2.drawRect(img2X+50, img2Y+142, 130, 50);
+        g2.drawRect(img2X+50, img2Y+292, 130, 50);
+    }
+
+    private void drawRotatedImage(Graphics2D g2, Image img, int x, int y, int w, int h, double angle) {
+        int cx = x + w / 2;
+        int cy = y + h / 2;
+        g2.rotate(angle, cx, cy);
+        g2.drawImage(img, x, y, w, h, null);
+        g2.rotate(-angle, cx, cy);
     }
 }
