@@ -18,7 +18,7 @@ public class Game extends JPanel implements Runnable {
     Image img3;
     Image img4;
     Image background;
-    Score hc;
+    HighScore hc;
 
     private Frame frame;
 
@@ -70,7 +70,7 @@ public class Game extends JPanel implements Runnable {
         rnd = new Random();
         img2X = rnd.nextInt(screenWidth);
         img2Y = -350;
-        hc = new Score();
+        hc = new HighScore();
         currentItem = rnd.nextInt(4);
         zivoty = 3;
         bezi = true;

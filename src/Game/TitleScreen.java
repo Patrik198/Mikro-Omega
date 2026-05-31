@@ -29,7 +29,7 @@ public class TitleScreen extends JFrame {
         b1.setFocusPainted(false);
         add(b1, BorderLayout.NORTH);
 
-        JButton b2 = new JButton("Score");
+        JButton b2 = new JButton("High Score");
         b2.setFont(new Font("Serif", Font.BOLD, 45));
         b2.setFocusPainted(false);
         add(b2, BorderLayout.SOUTH);
@@ -59,7 +59,7 @@ public class TitleScreen extends JFrame {
         b2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new Score();
+                new HighScore();
             }
         });
     }
