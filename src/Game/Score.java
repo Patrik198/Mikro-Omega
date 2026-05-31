@@ -10,7 +10,7 @@ public class Score extends JFrame {
     private JLabel score;
 
     public Score() {
-        super("High Score");
+        super("Score");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // zavře jen toto okno
         setSize(400, 300);
         setLocationRelativeTo(null);
@@ -18,7 +18,7 @@ public class Score extends JFrame {
 
         setIconImage(new ImageIcon("/Images/160px-Diamond_(inventory)_MCE.png").getImage());
 
-        JLabel title = new JLabel("Best score:", SwingConstants.CENTER);
+        JLabel title = new JLabel("score:", SwingConstants.CENTER);
         title.setFont(new Font("Serif", Font.BOLD, 36));
         add(title, BorderLayout.NORTH);
 
