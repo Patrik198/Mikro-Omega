@@ -78,7 +78,6 @@ public class Game extends JPanel implements Runnable {
 
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setFocusable(true);
-        this.addKeyListener(kh);
 
         frame.add(this);
         frame.setResizable(false);
