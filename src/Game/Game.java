@@ -39,10 +39,21 @@ public class Game extends JPanel implements Runnable {
     private double itemRotation = 0;
     private final double[] rotationSpeeds = {0.03, 0.03, 0.03, 0.03};
 
+    /**
+     * Sets whether the game is currently running.
+     *
+     * @param bezi true = game is running, false = game is stopped
+     */
     public void setBezi(boolean bezi) {
         this.bezi = bezi;
     }
 
+    /**
+     * Constructor. Loads all images, initialises game variables,
+     * sets the window size, and registers the key listener.
+     *
+     * @param frame the main application window (JFrame) to which this panel is added
+     */
     public Game(JFrame frame) {
 
         cart.cartFrames[0] = new ImageIcon(getClass().getResource("/Images/minecart1.png")).getImage();
@@ -78,11 +89,18 @@ public class Game extends JPanel implements Runnable {
         frame.setIconImage(new ImageIcon(getClass().getResource("/Images/160px-Diamond_(inventory)_MCE.png")).getImage());
     }
 
+    /**
+     * Creates and starts the game thread that drives the main game loop.
+     */
     public void startGameThread() {
         gameThread = new Thread(this);
         gameThread.start();
     }
 
+    /**
+     * Main game loop running on its own thread.
+     * Calls update() for logic and repaint() for rendering approximately every 16 ms (~60 FPS).
+     */
     @Override
     public void run() {
         while (gameThread != null) {
@@ -97,6 +115,19 @@ public class Game extends JPanel implements Runnable {
         }
     }
 
+    /**
+     * Updates all game logic every frame:
+     *
+     *   Moves the cart left/right based on pressed keys
+     *   Clamps the cart position to screen boundaries
+     *   Updates the cart animation (moving / idle)
+     *   Advances the falling item's position and rotation
+     *   Resets the item when it falls below the screen
+     *   Handles collision between the cart and the item:
+     *
+     *  Valuable item caught → increments score, increases speed every 10 points
+     *  Bottle (item 2) caught → removes a life, ends the game at 0 lives
+     */
     public void update() {
 
         if (kh.LeftPressed) {
@@ -146,7 +177,7 @@ public class Game extends JPanel implements Runnable {
                 zivoty--;
                 if (zivoty <= 0) {
                     setBezi(false);
-                    gameThread = null; // zastaví smyčku
+                    gameThread = null;
                     frame.dispose();
                 }
             } else {
@@ -156,13 +187,20 @@ public class Game extends JPanel implements Runnable {
                 }
             }
 
-
             currentItem = rnd.nextInt(4);
         }
-
-
     }
 
+    /**
+     * Renders the entire game scene each frame:
+     *
+     *Background stretched across the full screen
+     *Cart sprite using the current animation frame
+     *Currently falling item with rotation (diamond, iron ingot, bottle, or gold)
+     *Debug hitboxes for the cart (red) and item (blue)
+     *
+     * @param g the graphics context provided by Swing
+     */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -186,18 +224,30 @@ public class Game extends JPanel implements Runnable {
                 break;
         }
 
-//        Hitboxy na testy a pro ukazku
-        g2.setColor(new Color(255, 0, 0, 120));
-        g2.fillRect(cartX + 50, cartY + 170, tileSize * 8 - 100, tileSize * 4-60);
-        g2.setColor(Color.RED);
-        g2.drawRect(cartX + 50, cartY + 170, tileSize * 8 - 100, tileSize * 4-60);
-
-        g2.setColor(new Color(0, 0, 255, 120));
-        g2.fillRect(img2X+20, img2Y+292, 90, 50);
-        g2.setColor(Color.BLUE);
-        g2.drawRect(img2X+50, img2Y+292, 130, 50);
+        // Debug hitboxes
+//        g2.setColor(new Color(255, 0, 0, 120));
+//        g2.fillRect(cartX + 50, cartY + 170, tileSize * 8 - 100, tileSize * 4-60);
+//        g2.setColor(Color.RED);
+//        g2.drawRect(cartX + 50, cartY + 170, tileSize * 8 - 100, tileSize * 4-60);
+//
+//        g2.setColor(new Color(0, 0, 255, 120));
+//        g2.fillRect(img2X+20, img2Y+292, 90, 50);
+//        g2.setColor(Color.BLUE);
+//        g2.drawRect(img2X+50, img2Y+292, 130, 50);
     }
 
+    /**
+     * Draws an image rotated by the given angle around its centre point.
+     * The graphics context is temporarily transformed and then restored after drawing.
+     *
+     * @param g2    the graphics context
+     * @param img   the image to draw
+     * @param x     x coordinate of the image's top-left corner
+     * @param y     y coordinate of the image's top-left corner
+     * @param w     width of the image in pixels
+     * @param h     height of the image in pixels
+     * @param angle rotation angle in radians
+     */
     private void drawRotatedImage(Graphics2D g2, Image img, int x, int y, int w, int h, double angle) {
         int cx = x + w / 2;
         int cy = y + h / 2;

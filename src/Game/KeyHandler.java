@@ -1,30 +1,29 @@
 package Game;
 
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
-public class KeyHandler implements KeyListener {
+/**
+ * Handles keyboard input for the game.
+ * Tracks the pressed state of the A, D movement keys.
+ */
+public class KeyHandler {
 
-    public boolean UpPressed;
-    public boolean DownPressed;
+    /** True while the A key (move left) is held down. */
     public boolean LeftPressed;
+
+    /** True while the D key (move right) is held down. */
     public boolean RightPressed;
 
-    @Override
-    public void keyTyped(KeyEvent e) {}
 
-    @Override
+    /**
+     * Sets the corresponding direction flag to true when a movement key is pressed.
+     *
+     * @param e the key event containing the key code
+     */
+
     public void keyPressed(KeyEvent e) {
 
         int code = e.getKeyCode();
-
-        if (code == KeyEvent.VK_W) {
-            UpPressed = true;
-        }
-
-        if (code == KeyEvent.VK_S) {
-            DownPressed = true;
-        }
 
         if (code == KeyEvent.VK_A) {
             LeftPressed = true;
@@ -35,18 +34,16 @@ public class KeyHandler implements KeyListener {
         }
     }
 
-    @Override
+    /**
+     * Sets the corresponding direction flag to false when a movement key is released.
+     *
+     * @param e the key event containing the key code
+     */
+
     public void keyReleased(KeyEvent e) {
 
         int code = e.getKeyCode();
 
-        if (code == KeyEvent.VK_W) {
-            UpPressed = false;
-        }
-
-        if (code == KeyEvent.VK_S) {
-            DownPressed = false;
-        }
 
         if (code == KeyEvent.VK_A) {
             LeftPressed = false;
